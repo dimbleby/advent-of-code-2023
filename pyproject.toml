@@ -12,6 +12,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.10"
 attrs = ">=23.1.0"
+typing_extensions = ">=4.8.0"
 
 [tool.poetry.group.dev.dependencies]
 mypy = ">=1.7"
