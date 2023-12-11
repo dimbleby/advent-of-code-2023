@@ -35,6 +35,12 @@ def chunks(seq: Chunkable, n: int) -> Iterator[Chunkable]:
 Coord2: TypeAlias = tuple[int, int]
 
 
+def manhattan(here: Coord2, there: Coord2) -> int:
+    r1, c1 = here
+    r2, c2 = there
+    return abs(r1 - r2) + abs(c1 - c2)
+
+
 @define(eq=True)
 class Vec2:
     x: int
