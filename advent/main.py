@@ -7,8 +7,11 @@ import sys
 
 def main() -> None:
     day = int(sys.argv[1])
-    module = importlib.import_module(f"advent.day{day:02}")
-    module.solve()
+    try:
+        module = importlib.import_module(f"advent.day{day:02}")
+        module.solve()
+    except ModuleNotFoundError:
+        print(f"Day {day} not implemented")
 
 
 if __name__ == "__main__":

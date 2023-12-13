@@ -21,7 +21,7 @@ def ways_to_beat(record: int, t: int) -> int:
 
 def solve() -> None:
     puzzle = data_dir() / "day06.txt"
-    data = puzzle.read_text(encoding="utf-8").strip()
+    data = puzzle.read_text(encoding="utf-8")
     lines = data.splitlines()
     times = [int(n) for n in lines[0].split()[1:]]
     distances = [int(n) for n in lines[1].split()[1:]]

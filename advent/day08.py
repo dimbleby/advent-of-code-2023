@@ -23,10 +23,10 @@ class Node:
 
 def solve() -> None:
     puzzle = data_dir() / "day08.txt"
-    data = puzzle.read_text(encoding="utf-8").strip()
+    data = puzzle.read_text(encoding="utf-8")
     lines = data.splitlines()
 
-    instructions = lines[0].strip()
+    instructions = lines[0]
     nodes = [Node.from_string(line) for line in data.splitlines()[2:]]
     node_map = {node.name: node for node in nodes}
 

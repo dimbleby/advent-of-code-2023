@@ -78,7 +78,7 @@ class Play:
 
 def solve() -> None:
     puzzle = data_dir() / "day07.txt"
-    data = puzzle.read_text(encoding="utf-8").strip()
+    data = puzzle.read_text(encoding="utf-8")
 
     plays = [Play.from_string(string) for string in data.splitlines()]
     plays = sorted(plays, key=lambda play: (play.hand.kind(), play.hand.values))

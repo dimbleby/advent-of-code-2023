@@ -32,7 +32,7 @@ class Card:
 
 def solve() -> None:
     puzzle = data_dir() / "day04.txt"
-    data = puzzle.read_text(encoding="utf-8").strip()
+    data = puzzle.read_text(encoding="utf-8")
     lines = data.splitlines()
     cards = [Card.from_string(line) for line in lines]
 

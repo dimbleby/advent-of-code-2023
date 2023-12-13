@@ -67,7 +67,7 @@ class Game:
 
 def solve() -> None:
     puzzle = data_dir() / "day02.txt"
-    data = puzzle.read_text(encoding="utf-8").strip()
+    data = puzzle.read_text(encoding="utf-8")
     lines = data.splitlines()
     games = [Game.from_string(line) for line in lines]
 

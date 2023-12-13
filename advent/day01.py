@@ -42,7 +42,7 @@ def get_numbers2(line: str) -> list[int]:
 
 def solve() -> None:
     puzzle = data_dir() / "day01.txt"
-    data = puzzle.read_text(encoding="utf-8").strip()
+    data = puzzle.read_text(encoding="utf-8")
     lines = data.splitlines()
 
     numbers = [get_numbers(line) for line in lines]

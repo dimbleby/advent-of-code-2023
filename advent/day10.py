@@ -79,7 +79,7 @@ def get_area(loop: list[Coord2]) -> int:
 
 def solve() -> None:
     puzzle = data_dir() / "day10.txt"
-    data = puzzle.read_text(encoding="utf-8").strip()
+    data = puzzle.read_text(encoding="utf-8")
 
     grid: Grid = {}
     start: Coord2

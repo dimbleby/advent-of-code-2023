@@ -117,7 +117,7 @@ class Chain:
 
 def solve() -> None:
     puzzle = data_dir() / "day05.txt"
-    data = puzzle.read_text(encoding="utf-8").strip()
+    data = puzzle.read_text(encoding="utf-8")
     lines = data.splitlines()
 
     seeds_, values = lines[0].split(": ")

@@ -76,7 +76,7 @@ class Grid:
 
 def solve() -> None:
     puzzle = data_dir() / "day13.txt"
-    data = puzzle.read_text(encoding="utf-8").strip()
+    data = puzzle.read_text(encoding="utf-8")
 
     grids = [
         Grid(list(section))

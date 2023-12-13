@@ -42,7 +42,7 @@ def possibilities(text: str, pattern: tuple[int, ...]) -> int:
 
 def solve() -> None:
     puzzle = data_dir() / "day12.txt"
-    data = puzzle.read_text(encoding="utf-8").strip()
+    data = puzzle.read_text(encoding="utf-8")
     records = [Record.from_string(line) for line in data.splitlines()]
 
     part_one = sum(possibilities(r.line, r.pattern) for r in records)

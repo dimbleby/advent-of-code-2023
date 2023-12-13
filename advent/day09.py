@@ -18,7 +18,7 @@ def extrapolate(sequence: list[int], backwards: bool = False) -> int:
 
 def solve() -> None:
     puzzle = data_dir() / "day09.txt"
-    data = puzzle.read_text(encoding="utf-8").strip()
+    data = puzzle.read_text(encoding="utf-8")
     sequences = [[int(n) for n in line.split()] for line in data.splitlines()]
 
     extrapolations = (extrapolate(sequence) for sequence in sequences)

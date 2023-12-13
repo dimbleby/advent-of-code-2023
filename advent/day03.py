@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 def solve() -> None:
     puzzle = data_dir() / "day03.txt"
-    data = puzzle.read_text(encoding="utf-8").strip()
+    data = puzzle.read_text(encoding="utf-8")
 
     # Parse.
     grid: dict[Coord2, str] = {}

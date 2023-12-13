@@ -25,7 +25,7 @@ def recalibrate(galaxies: set[Coord2], *, expansion: int = 2) -> set[Coord2]:
 
 def solve() -> None:
     puzzle = data_dir() / "day11.txt"
-    data = puzzle.read_text(encoding="utf-8").strip()
+    data = puzzle.read_text(encoding="utf-8")
 
     galaxies: set[Coord2] = set()
     for row, line in enumerate(data.splitlines()):
