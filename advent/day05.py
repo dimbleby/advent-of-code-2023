@@ -120,7 +120,7 @@ def solve() -> None:
     data = puzzle.read_text(encoding="utf-8")
     lines = data.splitlines()
 
-    seeds_, values = lines[0].split(": ")
+    _, values = lines[0].split(": ")
     seeds = [int(n) for n in values.split()]
 
     sections = [
@@ -133,7 +133,7 @@ def solve() -> None:
     part_one = min(locations)
     print(f"Part one: {part_one}")
 
-    seed_ranges = [Range(*numbers) for numbers in chunks(seeds, 2)]
+    seed_ranges = list(itertools.starmap(Range, chunks(seeds, 2)))
     output_ranges = chain.plumb_ranges(seed_ranges)
     part_two = min(r.start for r in output_ranges)
     print(f"Part two: {part_two}")

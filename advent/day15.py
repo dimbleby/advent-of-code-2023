@@ -49,6 +49,5 @@ def solve() -> None:
         for box_number, box in boxes.items()
         for slot, (_, focal_length) in enumerate(box, 1)
     )
-
     part_two = sum(powers)
     print(f"Part two: {part_two}")

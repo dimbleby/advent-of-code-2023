@@ -34,9 +34,9 @@ def solve() -> None:
                 galaxies.add((row, col))
 
     expanded = recalibrate(galaxies)
-    part_one = sum(manhattan(g1, g2) for g1, g2 in itertools.combinations(expanded, 2))
+    part_one = sum(itertools.starmap(manhattan, itertools.combinations(expanded, 2)))
     print(f"Part one: {part_one}")
 
     expanded = recalibrate(galaxies, expansion=1000000)
-    part_two = sum(manhattan(g1, g2) for g1, g2 in itertools.combinations(expanded, 2))
+    part_two = sum(itertools.starmap(manhattan, itertools.combinations(expanded, 2)))
     print(f"Part two: {part_two}")
