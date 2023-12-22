@@ -33,6 +33,7 @@ def chunks(seq: Chunkable, n: int) -> Iterator[Chunkable]:
 
 
 Coord2: TypeAlias = tuple[int, int]
+Coord3: TypeAlias = tuple[int, int, int]
 
 
 def manhattan(here: Coord2, there: Coord2) -> int:
