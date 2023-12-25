@@ -89,12 +89,12 @@ class UnionFind(Generic[T]):
 
         return root
 
-    def union(self, a: T, b: T) -> None:
+    def union(self, a: T, b: T) -> bool:
         x = self.find(a)
         y = self.find(b)
 
         if x == y:
-            return
+            return False
 
         xrank, yrank = self.ranks[x], self.ranks[y]
         if xrank < yrank:
@@ -104,3 +104,5 @@ class UnionFind(Generic[T]):
 
             if xrank == yrank:
                 self.ranks[x] = xrank + 1
+
+        return True
