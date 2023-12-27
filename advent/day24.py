@@ -1,56 +1,54 @@
 from __future__ import annotations
 
 import itertools
+import math
 
 from attrs import define
-from sympy import solve as ssolve
-from sympy import symbols
 
-from advent.utils import data_dir
+from advent.utils import Vec3, data_dir
 
 
 @define
 class Stone:
-    x: int
-    y: int
-    z: int
-    dx: int
-    dy: int
-    dz: int
+    pos: Vec3
+    vel: Vec3
 
     @staticmethod
     def from_string(text: str) -> Stone:
         position, velocity = text.split(" @ ")
         x, y, z = (int(w) for w in position.split(", "))
         dx, dy, dz = (int(w) for w in velocity.split(", "))
-        return Stone(x, y, z, dx, dy, dz)
+        return Stone(Vec3(x, y, z), Vec3(dx, dy, dz))
+
+    def __sub__(self, other: Stone) -> Stone:
+        return Stone(self.pos - other.pos, self.vel - other.vel)
 
 
 def cross_part_one(s1: Stone, s2: Stone) -> bool:
     # First line is s1 + t1 * v1
     # Second line is s2 + t2 * v2
     #
-    # Find when and where they cross.
+    # Find when and where they meet.
     #
-    # s1 - s2 = t1 * v1 + t2 * v2
-    det = s1.dx * s2.dy - s1.dy * s2.dx
+    # s2 - s1 = t1 * v1 - t2 * v2
+    det = s1.vel.cross(s2.vel).z
     if det == 0:
         return False
 
-    s = (s1.x - s2.x, s1.y - s2.y)
-    t1 = (s[1] * s2.dx - s[0] * s2.dy) / det
+    s = s2 - s1
+    t1 = s.pos.cross(s2.vel).z / det
     if t1 < 0:
         return False
 
-    t2 = (s[1] * s1.dx - s[0] * s1.dy) / det
+    t2 = s.pos.cross(s1.vel).z / det
     if t2 < 0:
         return False
 
-    x = s1.x + t1 * s1.dx
+    x = s1.pos.x + t1 * s1.vel.x
     if not 200000000000000 <= x <= 400000000000000:
         return False
 
-    y = s1.y + t1 * s1.dy
+    y = s1.pos.y + t1 * s1.vel.y
     if not 200000000000000 <= y <= 400000000000000:
         return False
 
@@ -58,29 +56,35 @@ def cross_part_one(s1: Stone, s2: Stone) -> bool:
 
 
 def collide_part_two(stones: list[Stone]) -> int:
-    # rock is at r + t * vr
+    # Work in the frame of reference of the first stone.
+    s0 = stones[0]
+    s1 = stones[1] - s0
+    s2 = stones[2] - s0
+
+    # The rock passes through the origin (stone 0) and hits the line given by stone 1.
     #
-    # So take three stones and solve
+    # Therefore it travels in the plane with normal s1.pos x s1.vel.
+    normal = s1.pos.cross(s1.vel)
+    normal //= math.gcd(normal.x, normal.y, normal.z)
+
+    # The rock must hit stone 2 when it crosses that plane.
+    # ie when (s2.pos + t2 * s2.vel) . normal == 0
+    t2 = -s2.pos.dot(normal) // s2.vel.dot(normal)
+    x2 = s2.pos + t2 * s2.vel
+
+    # The rock's path takes it through the origin and x2: where does it meet s1?
     #
-    # r + vr * t1 = s1 + vs1 * t1
-    # r + vr * t2 = s2 + vs2 * t2
-    # r + vr * t3 = s3 + vs3 * t3
-    #
-    s1, s2, s3 = stones[:3]
-    rx, ry, rz, vrx, vry, vrz, t1, t2, t3 = symbols("rx ry rz vrx vry vrz t1 t2 t3")
-    exprs = [
-        rx + vrx * t1 - s1.x - s1.dx * t1,
-        ry + vry * t1 - s1.y - s1.dy * t1,
-        rz + vrz * t1 - s1.z - s1.dz * t1,
-        rx + vrx * t2 - s2.x - s2.dx * t2,
-        ry + vry * t2 - s2.y - s2.dy * t2,
-        rz + vrz * t2 - s2.z - s2.dz * t2,
-        rx + vrx * t3 - s3.x - s3.dx * t3,
-        ry + vry * t3 - s3.y - s3.dy * t3,
-        rz + vrz * t3 - s3.z - s3.dz * t3,
-    ]
-    values = ssolve(exprs)  # type: ignore[no-untyped-call]
-    return sum(values[0][variable] for variable in (rx, ry, rz))
+    # l * x2 = s1.pos + t1 * s1.vel
+    t1 = s1.pos.cross(x2).z // x2.cross(s1.vel).z
+    x1 = s1.pos + t1 * s1.vel
+
+    # Now it's easy to get the rock's velocity, and position at time 0.
+    rvel = (x2 - x1) // (t2 - t1)
+    rpos = x1 - t1 * rvel
+
+    # Undo the change of frame.
+    rpos += s0.pos
+    return rpos.x + rpos.y + rpos.z
 
 
 def solve() -> None:

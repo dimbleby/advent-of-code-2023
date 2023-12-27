@@ -64,6 +64,62 @@ class Vec2:
         return self
 
 
+@define(eq=True)
+class Vec3:
+    x: int
+    y: int
+    z: int
+
+    def __add__(self, other: Vec3) -> Vec3:
+        return Vec3(self.x + other.x, self.y + other.y, self.z + other.z)
+
+    def __iadd__(self, other: Vec3) -> Vec3:
+        self.x += other.x
+        self.y += other.y
+        self.z += other.z
+        return self
+
+    def __sub__(self, other: Vec3) -> Vec3:
+        return Vec3(self.x - other.x, self.y - other.y, self.z - other.z)
+
+    def __isub__(self, other: Vec3) -> Vec3:
+        self.x -= other.x
+        self.y -= other.y
+        self.z -= other.z
+        return self
+
+    def __mul__(self, n: int) -> Vec3:
+        return Vec3(self.x * n, self.y * n, self.z * n)
+
+    def __rmul__(self, n: int) -> Vec3:
+        return Vec3(n * self.x, n * self.y, n * self.z)
+
+    def __imul__(self, n: int) -> Vec3:
+        self.x *= n
+        self.y *= n
+        self.z *= n
+        return self
+
+    def __floordiv__(self, n: int) -> Vec3:
+        return Vec3(self.x // n, self.y // n, self.z // n)
+
+    def __ifloordiv__(self, n: int) -> Vec3:
+        self.x //= n
+        self.y //= n
+        self.z //= n
+        return self
+
+    def cross(self, other: Vec3) -> Vec3:
+        return Vec3(
+            self.y * other.z - other.y * self.z,
+            self.z * other.x - other.z * self.x,
+            self.x * other.y - other.x * self.y,
+        )
+
+    def dot(self, other: Vec3) -> int:
+        return self.x * other.x + self.y * other.y + self.z * other.z
+
+
 T = TypeVar("T", bound=Hashable)
 
 
