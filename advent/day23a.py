@@ -1,9 +1,12 @@
+#!/usr/bin/env python3
+
 from __future__ import annotations
 
-from collections import defaultdict
+from collections import deque
 from typing import TYPE_CHECKING, TypeAlias
 
 from attrs import frozen
+from ortools.sat.python import cp_model
 
 from advent.utils import Coord2, data_dir
 
@@ -25,6 +28,7 @@ TURNS = {
 
 
 Grid: TypeAlias = dict[Coord2, str]
+Edge: TypeAlias = tuple[Coord2, Coord2]
 
 
 @frozen
@@ -55,28 +59,30 @@ class Layout:
 
             yield (new_row, new_col)
 
-    def direct_paths(
+    def direct_edges(
         self, tiles: set[Coord2], *, part_two: bool = False
-    ) -> dict[Coord2, list[tuple[Coord2, int]]]:
-        paths: dict[Coord2, list[tuple[Coord2, int]]] = defaultdict(list)
+    ) -> dict[Edge, int]:
+        edges: dict[Edge, int] = {}
         for start in tiles:
             visited: set[Coord2] = set()
-            stack = [(0, start)]
-            while stack:
-                distance, tile = stack.pop()
+            queue = deque([(0, start)])
+            while queue:
+                distance, tile = queue.popleft()
                 if tile in visited:
                     continue
 
                 visited.add(tile)
 
                 if tile != start and tile in tiles:
-                    paths[start].append((tile, distance))
+                    edges[(start, tile)] = distance
                     continue
 
-                for neighbour in self.neighbours(tile, part_two=part_two):
-                    stack.append((distance + 1, neighbour))
+                queue.extend(
+                    (distance + 1, neighbour)
+                    for neighbour in self.neighbours(tile, part_two=part_two)
+                )
 
-        return paths
+        return edges
 
     def solve(self, *, part_two: bool = False) -> int:
         goal = max(self.grid)
@@ -87,43 +93,32 @@ class Layout:
             if sum(1 for n in self.neighbours(tile, part_two=part_two)) > 2
         }
         nodes = hubs | {start, goal}
-        node_indexes = {tile: index for index, tile in enumerate(nodes)}
+        weights = self.direct_edges(nodes, part_two=part_two)
 
-        neighbours = self.direct_paths(nodes, part_two=part_two)
+        # arcs[i, j] is true iff we travel from i to j.
+        model = cp_model.CpModel()
+        arcs = {edge: model.NewBoolVar("arc") for edge in weights}
 
-        tile_values: dict[Coord2, int] = {}
-        for tile, paths in neighbours.items():
-            paths.sort(key=lambda x: x[1])
-            weights = [w for _, w in paths]
-            count = 1 if tile in (start, goal) else 2
-            tile_values[tile] = sum(weights[-count:])
+        # skipped[i] is true iff we skip i.
+        skipped = {node: model.NewBoolVar("skipped") for node in hubs}
 
-        bound = sum(tile_values.values())
-        best = 0
-        stack: list[tuple[int, int, int, int, Coord2]] = [(0, bound, 0, 0, start)]
+        # To create a circuit constraint we add a dummy edge from goal back to start.
+        indexes = {node: index for index, node in enumerate(nodes)}
+        edges = [(indexes[a], indexes[b], arc) for (a, b), arc in arcs.items()]
+        edges.extend((indexes[n], indexes[n], v) for n, v in skipped.items())
+        edges.append((indexes[goal], indexes[start], True))
+        model.AddCircuit(edges)
 
-        while stack:
-            cost, bound, in_cost, path, tile = stack.pop()
-            if tile == goal:
-                best = max(cost, best)
-                continue
+        # Objective is to maximize the weight of the selected edges.
+        objective = sum(weights[edge] * arc for edge, arc in arcs.items())
+        model.Maximize(objective)
 
-            for new_tile, out_cost in neighbours[tile]:
-                new_tile_index = node_indexes[new_tile]
-                new_tile_bit = 1 << new_tile_index
-                if new_tile_bit & path:
-                    continue
+        solver = cp_model.CpSolver()
+        status = solver.Solve(model)
+        assert status == cp_model.OPTIMAL
+        value = solver.ObjectiveValue()
 
-                loss = tile_values[tile] - in_cost - out_cost
-                new_bound = bound - loss
-                if new_bound // 2 <= best:
-                    continue
-
-                new_cost = cost + out_cost
-                new_path = path | new_tile_bit
-                stack.append((new_cost, new_bound, out_cost, new_path, new_tile))
-
-        return best
+        return int(value)
 
 
 def solve() -> None:
@@ -136,3 +131,7 @@ def solve() -> None:
 
     part_two = layout.solve(part_two=True)
     print(f"Part two: {part_two}")
+
+
+if __name__ == "__main__":
+    solve()
