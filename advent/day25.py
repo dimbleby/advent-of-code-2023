@@ -1,30 +1,28 @@
 from __future__ import annotations
 
+import math
 import random
-from collections import Counter, defaultdict
+from collections import Counter
 from typing import TypeAlias
 
 from advent.utils import UnionFind, data_dir
 
-Edge: TypeAlias = tuple[str, str]
+Node: TypeAlias = str
+Edge: TypeAlias = tuple[Node, Node]
 
 
-def karger(graph: dict[str, list[str]]) -> tuple[UnionFind[str], list[Edge]]:
-    uf = UnionFind.from_elements(graph)
+def karger(nodes: set[Node], edges: list[Edge]) -> tuple[UnionFind[Node], list[Edge]]:
+    uf = UnionFind.from_elements(nodes)
+    random.shuffle(edges)
 
-    edge_list: list[Edge] = [
-        (a, b) for a, neighbours in graph.items() for b in neighbours if a < b
-    ]
-    random.shuffle(edge_list)
-    edges = iter(edge_list)
-
-    components = len(graph)
+    edge_iter = iter(edges)
+    components = len(nodes)
     while components > 2:
-        edge = next(edges)
+        edge = next(edge_iter)
         if uf.union(*edge):
             components -= 1
 
-    cut = [(a, b) for a, b in edges if uf.find(a) != uf.find(b)]
+    cut = [(a, b) for a, b in edge_iter if uf.find(a) != uf.find(b)]
 
     return uf, cut
 
@@ -33,23 +31,22 @@ def solve() -> None:
     puzzle = data_dir() / "day25.txt"
     data = puzzle.read_text(encoding="utf-8")
 
-    graph: dict[str, list[str]] = defaultdict(list)
+    nodes: set[Node] = set()
+    edges: list[Edge] = []
+
     for line in data.splitlines():
         node, neighbours = line.split(": ")
+        nodes.add(node)
         for neighbour in neighbours.split():
-            graph[node].append(neighbour)
-            graph[neighbour].append(node)
+            nodes.add(neighbour)
+            edges.append((node, neighbour))
 
-    uf: UnionFind[str]
     while True:
-        uf, cut = karger(graph)
+        uf, cut = karger(nodes, edges)
         if len(cut) == 3:
             break
 
-    counter = Counter(uf.find(node) for node in graph)
+    counter = Counter(uf.find(node) for node in nodes)
 
-    part_one = 1
-    for value in counter.values():
-        part_one *= value
-
+    part_one = math.prod(counter.values())
     print(f"Part one: {part_one}")

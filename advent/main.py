@@ -5,8 +5,7 @@ import importlib
 import sys
 
 
-def main() -> None:
-    day = int(sys.argv[1])
+def solve(day: int) -> None:
     try:
         module = importlib.import_module(f"advent.day{day:02}")
         module.solve()
@@ -14,5 +13,13 @@ def main() -> None:
         print(f"Day {day} not implemented")
 
 
+def main() -> None:
+    day = int(sys.argv[1])
+    solve(day)
+
+
 if __name__ == "__main__":
-    main()
+    for day in range(1, 26):
+        print(f"Day {day}:")
+        solve(day)
+        print()

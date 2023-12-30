@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import itertools
+import math
 from abc import ABC, abstractmethod
 
 from attrs import frozen
@@ -54,10 +55,8 @@ class Parts:
     ranges: dict[str, Range]
 
     def volume(self) -> int:
-        value = 1
-        for r in self.ranges.values():
-            value *= r.size()
-        return value
+        values = (r.size() for r in self.ranges.values())
+        return math.prod(values)
 
     def split(self, variable: str, split: int) -> tuple[Parts | None, Parts | None]:
         lo_part = hi_part = None

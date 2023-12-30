@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import itertools
 import math
 
 from advent.utils import data_dir
@@ -26,9 +27,8 @@ def solve() -> None:
     times = [int(n) for n in lines[0].split()[1:]]
     distances = [int(n) for n in lines[1].split()[1:]]
 
-    part_one = 1
-    for d, t in zip(distances, times, strict=True):
-        part_one *= ways_to_beat(d, t)
+    values = itertools.starmap(ways_to_beat, zip(distances, times, strict=True))
+    part_one = math.prod(values)
     print(f"Part one: {part_one}")
 
     big_time = int("".join(str(n) for n in times))
