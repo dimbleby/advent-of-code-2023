@@ -131,7 +131,7 @@ class UnionFind(Generic[T]):
     @staticmethod
     def from_elements(things: Iterable[T]) -> UnionFind[T]:
         parents = {thing: thing for thing in things}
-        ranks = {thing: 0 for thing in things}
+        ranks = dict.fromkeys(things, 0)
         return UnionFind(parents, ranks)
 
     def find(self, k: T) -> T:
