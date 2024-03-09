@@ -31,16 +31,13 @@ class Module(ABC):
         raise AssertionError
 
     @abstractproperty
-    def name(self) -> str:
-        ...
+    def name(self) -> str: ...
 
     @abstractproperty
-    def destinations(self) -> list[str]:
-        ...
+    def destinations(self) -> list[str]: ...
 
     @abstractmethod
-    def react(self, pulse: Pulse) -> list[Pulse]:
-        ...
+    def react(self, pulse: Pulse) -> list[Pulse]: ...
 
 
 @define

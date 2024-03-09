@@ -17,11 +17,9 @@ def data_dir() -> Path:
 
 
 class SupportsChunking(Protocol):
-    def __getitem__(self, index: slice, /) -> Self:
-        ...
+    def __getitem__(self, index: slice, /) -> Self: ...
 
-    def __len__(self) -> int:
-        ...
+    def __len__(self) -> int: ...
 
 
 Chunkable = TypeVar("Chunkable", bound=SupportsChunking)

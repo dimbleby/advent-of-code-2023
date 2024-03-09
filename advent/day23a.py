@@ -96,7 +96,7 @@ class Layout:
         weights = self.direct_edges(nodes, part_two=part_two)
 
         # arcs[i, j] is true iff we travel from i to j.
-        model = cp_model.CpModel()
+        model = cp_model.CpModel()  # type: ignore[no-untyped-call]
         arcs = {edge: model.NewBoolVar("arc") for edge in weights}
 
         # skipped[i] is true iff we skip i.
@@ -104,7 +104,9 @@ class Layout:
 
         # To create a circuit constraint we add a dummy edge from goal back to start.
         indexes = {node: index for index, node in enumerate(nodes)}
-        edges = [(indexes[a], indexes[b], arc) for (a, b), arc in arcs.items()]
+        edges: list[tuple[int, int, cp_model.IntVar | bool]] = [
+            (indexes[a], indexes[b], arc) for (a, b), arc in arcs.items()
+        ]
         edges.extend((indexes[n], indexes[n], v) for n, v in skipped.items())
         edges.append((indexes[goal], indexes[start], True))
         model.AddCircuit(edges)
@@ -113,9 +115,9 @@ class Layout:
         objective = sum(weights[edge] * arc for edge, arc in arcs.items())
         model.Maximize(objective)
 
-        solver = cp_model.CpSolver()
+        solver = cp_model.CpSolver()  # type: ignore[no-untyped-call]
         status = solver.Solve(model)
-        assert status == cp_model.OPTIMAL
+        assert status == cp_model.OPTIMAL  # type: ignore[comparison-overlap]
         value = solver.ObjectiveValue()
 
         return int(value)

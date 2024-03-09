@@ -93,12 +93,10 @@ class Condition(ABC):
         raise AssertionError
 
     @abstractmethod
-    def evaluate(self, part: Part) -> bool:
-        ...
+    def evaluate(self, part: Part) -> bool: ...
 
     @abstractmethod
-    def split(self, part_range: Parts) -> tuple[Parts | None, Parts | None]:
-        ...
+    def split(self, part_range: Parts) -> tuple[Parts | None, Parts | None]: ...
 
 
 @frozen
