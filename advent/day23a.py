@@ -96,7 +96,7 @@ class Layout:
         weights = self.direct_edges(nodes, part_two=part_two)
 
         # arcs[i, j] is true iff we travel from i to j.
-        model = cp_model.CpModel()  # type: ignore[no-untyped-call]
+        model = cp_model.CpModel()
         arcs = {edge: model.NewBoolVar("arc") for edge in weights}
 
         # skipped[i] is true iff we skip i.
@@ -115,7 +115,7 @@ class Layout:
         objective = sum(weights[edge] * arc for edge, arc in arcs.items())
         model.Maximize(objective)
 
-        solver = cp_model.CpSolver()  # type: ignore[no-untyped-call]
+        solver = cp_model.CpSolver()
         status = solver.Solve(model)
         assert status == cp_model.OPTIMAL  # type: ignore[comparison-overlap]
         value = solver.ObjectiveValue()

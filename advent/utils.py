@@ -8,8 +8,7 @@ from attrs import define
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
-
-    from typing_extensions import Self
+    from typing import Self
 
 
 def data_dir() -> Path:

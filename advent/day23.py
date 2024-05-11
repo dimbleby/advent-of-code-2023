@@ -73,8 +73,10 @@ class Layout:
                     paths[start].append((tile, distance))
                     continue
 
-                for neighbour in self.neighbours(tile, part_two=part_two):
-                    stack.append((distance + 1, neighbour))
+                stack += [
+                    (distance + 1, neighbour)
+                    for neighbour in self.neighbours(tile, part_two=part_two)
+                ]
 
         return paths
 

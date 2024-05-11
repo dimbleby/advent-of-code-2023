@@ -3,9 +3,9 @@ from __future__ import annotations
 import itertools
 import math
 from abc import ABC, abstractmethod
+from typing import override
 
 from attrs import frozen
-from typing_extensions import override
 
 from advent.utils import data_dir
 
@@ -106,7 +106,7 @@ class AlwaysTrue(Condition):
         return True
 
     @override
-    def split(self, part_range: Parts) -> tuple[Parts | None, Parts | None]:
+    def split(self, part_range: Parts) -> tuple[Parts, None]:
         return (part_range, None)
 
 

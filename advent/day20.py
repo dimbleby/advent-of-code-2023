@@ -3,9 +3,9 @@ from __future__ import annotations
 import math
 from abc import ABC, abstractmethod, abstractproperty
 from collections import deque
+from typing import override
 
 from attrs import define, field, frozen
-from typing_extensions import override
 
 from advent.utils import data_dir
 
