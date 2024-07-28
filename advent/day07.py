@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 from collections import Counter
-
-from attrs import frozen
+from dataclasses import dataclass
 
 from advent.utils import data_dir
 
@@ -50,7 +49,7 @@ def classify(counts: list[int]) -> int:
     return Kind.HIGH_CARD
 
 
-@frozen
+@dataclass(frozen=True)
 class Hand:
     values: list[int]
 
@@ -62,7 +61,7 @@ class Hand:
         return classify(counts)
 
 
-@frozen
+@dataclass(frozen=True)
 class Play:
     hand: Hand
     bid: int

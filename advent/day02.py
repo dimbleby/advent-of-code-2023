@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from attrs import frozen
+from dataclasses import dataclass
 
 from advent.utils import data_dir
 
 
-@frozen
+@dataclass(frozen=True)
 class Cubes:
     red: int
     green: int
@@ -43,7 +43,7 @@ class Cubes:
         return self.red * self.green * self.blue
 
 
-@frozen
+@dataclass(frozen=True)
 class Game:
     number: int
     rounds: list[Cubes]

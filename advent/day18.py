@@ -1,8 +1,7 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
-
-from attrs import frozen
 
 from advent.utils import data_dir
 
@@ -12,7 +11,7 @@ if TYPE_CHECKING:
 DIRECTIONS = {"R": (0, 1), "D": (1, 0), "L": (0, -1), "U": (-1, 0)}
 
 
-@frozen
+@dataclass(frozen=True)
 class Instruction:
     direction: str
     distance: int

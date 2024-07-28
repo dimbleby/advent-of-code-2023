@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 import itertools
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
-
-from attrs import define, field
 
 from advent.utils import data_dir
 
@@ -11,13 +10,13 @@ if TYPE_CHECKING:
     from advent.utils import Coord3
 
 
-@define
+@dataclass
 class Range:
     lo: int
     hi: int  # Exclusive.
 
 
-@define
+@dataclass
 class Brick:
     index: int
     x: Range
@@ -38,12 +37,12 @@ class Brick:
         )
 
 
-@define
+@dataclass
 class Tower:
     bricks: list[Brick]
     occupied: dict[Coord3, int] = field(init=False)
 
-    def __attrs_post_init__(self) -> None:
+    def __post_init__(self) -> None:
         self.occupied = {
             cell: brick.index
             for brick in self.bricks

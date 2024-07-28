@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from attrs import frozen
+from dataclasses import dataclass
 
 from advent.utils import data_dir
 
@@ -29,7 +29,7 @@ def transpose(rows: list[str]) -> list[str]:
     return ["".join(column) for column in zip(*rows, strict=True)]
 
 
-@frozen
+@dataclass(frozen=True)
 class Grid:
     rows: list[str]
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from attrs import field, frozen
+from dataclasses import dataclass, field
 
 from advent.utils import Coord2, data_dir
 
@@ -22,13 +22,13 @@ TURNS = {
 }
 
 
-@frozen
+@dataclass(frozen=True)
 class Layout:
     grid: Grid
     rows: int = field(init=False)
     cols: int = field(init=False)
 
-    def __attrs_post_init__(self) -> None:
+    def __post_init__(self) -> None:
         rows = len(self.grid)
         cols = len(self.grid[0])
         object.__setattr__(self, "rows", rows)

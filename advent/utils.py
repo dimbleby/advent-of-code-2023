@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 from collections.abc import Hashable
+from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Generic, Protocol, TypeVar
-
-from attrs import define
+from typing import TYPE_CHECKING, Generic, Protocol, Self, TypeVar
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
@@ -39,7 +38,7 @@ def manhattan(here: Coord2, there: Coord2) -> int:
     return abs(r1 - r2) + abs(c1 - c2)
 
 
-@define(eq=True)
+@dataclass
 class Vec2:
     x: int
     y: int
@@ -47,7 +46,7 @@ class Vec2:
     def __add__(self, other: Vec2) -> Vec2:
         return Vec2(self.x + other.x, self.y + other.y)
 
-    def __iadd__(self, other: Vec2) -> Vec2:
+    def __iadd__(self, other: Vec2) -> Self:
         self.x += other.x
         self.y += other.y
         return self
@@ -55,13 +54,13 @@ class Vec2:
     def __sub__(self, other: Vec2) -> Vec2:
         return Vec2(self.x - other.x, self.y - other.y)
 
-    def __isub__(self, other: Vec2) -> Vec2:
+    def __isub__(self, other: Vec2) -> Self:
         self.x -= other.x
         self.y -= other.y
         return self
 
 
-@define(eq=True)
+@dataclass
 class Vec3:
     x: int
     y: int
@@ -70,7 +69,7 @@ class Vec3:
     def __add__(self, other: Vec3) -> Vec3:
         return Vec3(self.x + other.x, self.y + other.y, self.z + other.z)
 
-    def __iadd__(self, other: Vec3) -> Vec3:
+    def __iadd__(self, other: Vec3) -> Self:
         self.x += other.x
         self.y += other.y
         self.z += other.z
@@ -79,7 +78,7 @@ class Vec3:
     def __sub__(self, other: Vec3) -> Vec3:
         return Vec3(self.x - other.x, self.y - other.y, self.z - other.z)
 
-    def __isub__(self, other: Vec3) -> Vec3:
+    def __isub__(self, other: Vec3) -> Self:
         self.x -= other.x
         self.y -= other.y
         self.z -= other.z
@@ -91,7 +90,7 @@ class Vec3:
     def __rmul__(self, n: int) -> Vec3:
         return Vec3(n * self.x, n * self.y, n * self.z)
 
-    def __imul__(self, n: int) -> Vec3:
+    def __imul__(self, n: int) -> Self:
         self.x *= n
         self.y *= n
         self.z *= n
@@ -100,7 +99,7 @@ class Vec3:
     def __floordiv__(self, n: int) -> Vec3:
         return Vec3(self.x // n, self.y // n, self.z // n)
 
-    def __ifloordiv__(self, n: int) -> Vec3:
+    def __ifloordiv__(self, n: int) -> Self:
         self.x //= n
         self.y //= n
         self.z //= n
@@ -120,7 +119,7 @@ class Vec3:
 T = TypeVar("T", bound=Hashable)
 
 
-@define
+@dataclass
 class UnionFind(Generic[T]):
     parents: dict[T, T]
     ranks: dict[T, int]

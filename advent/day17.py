@@ -2,9 +2,8 @@ from __future__ import annotations
 
 import heapq
 from collections import defaultdict
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
-
-from attrs import frozen
 
 from advent.utils import Coord2, data_dir
 
@@ -23,7 +22,7 @@ type Grid = dict[Coord2, int]
 type State = tuple[Coord2, bool]
 
 
-@frozen
+@dataclass(frozen=True)
 class Layout:
     grid: Grid
 

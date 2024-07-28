@@ -3,14 +3,13 @@ from __future__ import annotations
 import itertools
 import math
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from typing import override
-
-from attrs import frozen
 
 from advent.utils import data_dir
 
 
-@frozen
+@dataclass(frozen=True)
 class Part:
     values: dict[str, int]
 
@@ -28,7 +27,7 @@ class Part:
         return sum(self.values.values())
 
 
-@frozen
+@dataclass(frozen=True)
 class Range:
     lo: int
     hi: int
@@ -50,7 +49,7 @@ class Range:
         return lo_range, hi_range
 
 
-@frozen
+@dataclass(frozen=True)
 class Parts:
     ranges: dict[str, Range]
 
@@ -99,7 +98,7 @@ class Condition(ABC):
     def split(self, part_range: Parts) -> tuple[Parts | None, Parts | None]: ...
 
 
-@frozen
+@dataclass(frozen=True)
 class AlwaysTrue(Condition):
     @override
     def evaluate(self, part: Part) -> bool:
@@ -110,7 +109,7 @@ class AlwaysTrue(Condition):
         return (part_range, None)
 
 
-@frozen
+@dataclass(frozen=True)
 class LessThan(Condition):
     variable: str
     number: int
@@ -125,7 +124,7 @@ class LessThan(Condition):
         return (accepted, rejected)
 
 
-@frozen
+@dataclass(frozen=True)
 class GreaterThan(Condition):
     variable: str
     number: int
@@ -140,7 +139,7 @@ class GreaterThan(Condition):
         return (accepted, rejected)
 
 
-@frozen
+@dataclass(frozen=True)
 class Rule:
     condition: Condition
     destination: str
@@ -154,7 +153,7 @@ class Rule:
         return Rule(condition, destination)
 
 
-@frozen
+@dataclass(frozen=True)
 class Workflow:
     name: str
     rules: list[Rule]

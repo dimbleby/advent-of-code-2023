@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections import defaultdict
 from typing import TYPE_CHECKING
 
-from attrs import frozen
+from dataclasses import dataclass
 
 from advent.utils import Coord2, data_dir
 
@@ -27,7 +27,7 @@ TURNS = {
 type Grid = dict[Coord2, str]
 
 
-@frozen
+@dataclass(frozen=True)
 class Layout:
     grid: Grid
 

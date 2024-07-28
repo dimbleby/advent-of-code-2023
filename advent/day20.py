@@ -3,14 +3,13 @@ from __future__ import annotations
 import math
 from abc import ABC, abstractmethod, abstractproperty
 from collections import deque
+from dataclasses import dataclass, field
 from typing import override
-
-from attrs import define, field, frozen
 
 from advent.utils import data_dir
 
 
-@frozen
+@dataclass(frozen=True)
 class Pulse:
     source: str
     destination: str
@@ -40,7 +39,7 @@ class Module(ABC):
     def react(self, pulse: Pulse) -> list[Pulse]: ...
 
 
-@define
+@dataclass(slots=True)
 class Broadcaster(Module):
     name: str
     destinations: list[str]
@@ -53,7 +52,7 @@ class Broadcaster(Module):
         ]
 
 
-@define
+@dataclass(slots=True)
 class FlipFlop(Module):
     name: str
     destinations: list[str]
@@ -71,11 +70,11 @@ class FlipFlop(Module):
         ]
 
 
-@define
+@dataclass(slots=True)
 class Conjunction(Module):
     name: str
     destinations: list[str]
-    inputs: dict[str, bool] = field(factory=dict)
+    inputs: dict[str, bool] = field(default_factory=dict)
 
     @override
     def react(self, pulse: Pulse) -> list[Pulse]:

@@ -2,13 +2,12 @@ from __future__ import annotations
 
 import itertools
 import math
-
-from attrs import define
+from dataclasses import dataclass
 
 from advent.utils import Vec3, data_dir
 
 
-@define
+@dataclass
 class Stone:
     pos: Vec3
     vel: Vec3

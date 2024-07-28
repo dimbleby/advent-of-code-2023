@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 import functools
-
-from attrs import frozen
+from dataclasses import dataclass
 
 from advent.utils import data_dir
 
 
-@frozen
+@dataclass(frozen=True)
 class Record:
     line: str
     pattern: tuple[int, ...]

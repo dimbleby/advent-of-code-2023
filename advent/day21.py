@@ -2,9 +2,8 @@ from __future__ import annotations
 
 import itertools
 from collections import deque
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
-
-from attrs import field, frozen
 
 from advent.utils import Coord2, data_dir
 
@@ -20,14 +19,14 @@ WEST = (0, -1)
 type Grid = dict[Coord2, str]
 
 
-@frozen
+@dataclass(frozen=True)
 class Layout:
     grid: Grid
     start: Coord2 = field(init=False)
     num_rows: int = field(init=False)
     num_cols: int = field(init=False)
 
-    def __attrs_post_init__(self) -> None:
+    def __post_init__(self) -> None:
         start = next(k for k, v in self.grid.items() if v == "S")
         max_row, max_col = max(self.grid)
         object.__setattr__(self, "start", start)

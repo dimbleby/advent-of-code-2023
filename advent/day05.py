@@ -1,19 +1,18 @@
 from __future__ import annotations
 
 import itertools
-
-from attrs import frozen
+from dataclasses import dataclass
 
 from advent.utils import chunks, data_dir
 
 
-@frozen
+@dataclass(frozen=True)
 class Range:
     start: int
     length: int
 
 
-@frozen
+@dataclass(frozen=True)
 class Map:
     dest: int
     source: int
@@ -69,7 +68,7 @@ class Map:
         return moved, unmoved
 
 
-@frozen
+@dataclass(frozen=True)
 class Block:
     maps: list[Map]
 
@@ -96,7 +95,7 @@ class Block:
         return moved + unmoved
 
 
-@frozen
+@dataclass(frozen=True)
 class Chain:
     blocks: list[Block]
 

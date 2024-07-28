@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 from collections import deque
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from attrs import frozen
 from ortools.sat.python import cp_model
 
 from advent.utils import Coord2, data_dir
@@ -31,7 +31,7 @@ type Grid = dict[Coord2, str]
 type Edge = tuple[Coord2, Coord2]
 
 
-@frozen
+@dataclass(frozen=True)
 class Layout:
     grid: Grid
 

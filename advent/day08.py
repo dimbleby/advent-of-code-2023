@@ -2,13 +2,12 @@ from __future__ import annotations
 
 import itertools
 import math
-
-from attrs import frozen
+from dataclasses import dataclass
 
 from advent.utils import data_dir
 
 
-@frozen
+@dataclass(frozen=True)
 class Node:
     name: str
     left: str
