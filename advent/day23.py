@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from typing import TYPE_CHECKING, TypeAlias
+from typing import TYPE_CHECKING
 
 from attrs import frozen
 
@@ -24,7 +24,7 @@ TURNS = {
 }
 
 
-Grid: TypeAlias = dict[Coord2, str]
+type Grid = dict[Coord2, str]
 
 
 @frozen

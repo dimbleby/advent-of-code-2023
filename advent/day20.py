@@ -112,7 +112,7 @@ def solve() -> None:
 
         button_counter += 1
 
-        queue = deque([Pulse("button", "broadcaster", False)])
+        queue = deque([Pulse("button", "broadcaster", value=False)])
         while queue:
             pulse = queue.popleft()
             if pulse.value:

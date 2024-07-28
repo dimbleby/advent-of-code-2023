@@ -48,6 +48,7 @@ select = [
   "EXE",   # flake8-executable
   "FURB",  # refurb
   "F",     # pyflakes
+  "FBT",   # flake8-boolean-trap
   "FLY",   # flynt
   "I",     # isort
   "ICN",   # flake8-import-conventions
@@ -75,7 +76,6 @@ select = [
 ignore = [
   "E203",  # whitespace before ':'
   "S101",  # assert-used
-  "UP040", # 'type' keyword - https://github.com/python/mypy/issues/15238
 ]
 extend-safe-fixes = [
   "TCH", # flake8-type-checking

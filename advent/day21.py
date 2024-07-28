@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import itertools
 from collections import deque
-from typing import TYPE_CHECKING, TypeAlias
+from typing import TYPE_CHECKING
 
 from attrs import field, frozen
 
@@ -17,7 +17,7 @@ EAST = (0, 1)
 WEST = (0, -1)
 
 
-Grid: TypeAlias = dict[Coord2, str]
+type Grid = dict[Coord2, str]
 
 
 @frozen

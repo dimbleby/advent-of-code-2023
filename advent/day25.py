@@ -3,12 +3,11 @@ from __future__ import annotations
 import math
 import random
 from collections import Counter
-from typing import TypeAlias
 
 from advent.utils import UnionFind, data_dir
 
-Node: TypeAlias = str
-Edge: TypeAlias = tuple[Node, Node]
+type Node = str
+type Edge = tuple[Node, Node]
 
 
 def karger(nodes: set[Node], edges: list[Edge]) -> tuple[UnionFind[Node], list[Edge]]:

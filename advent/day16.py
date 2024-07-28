@@ -1,13 +1,11 @@
 from __future__ import annotations
 
-from typing import TypeAlias
-
 from attrs import field, frozen
 
 from advent.utils import Coord2, data_dir
 
-Grid: TypeAlias = list[str]
-State: TypeAlias = tuple[Coord2, Coord2]
+type Grid = list[str]
+type State = tuple[Coord2, Coord2]
 
 NORTH = (-1, 0)
 SOUTH = (1, 0)

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Hashable
 from pathlib import Path
-from typing import TYPE_CHECKING, Generic, Protocol, TypeAlias, TypeVar
+from typing import TYPE_CHECKING, Generic, Protocol, TypeVar
 
 from attrs import define
 
@@ -29,8 +29,8 @@ def chunks(seq: Chunkable, n: int) -> Iterator[Chunkable]:
         yield seq[i : i + n]
 
 
-Coord2: TypeAlias = tuple[int, int]
-Coord3: TypeAlias = tuple[int, int, int]
+type Coord2 = tuple[int, int]
+type Coord3 = tuple[int, int, int]
 
 
 def manhattan(here: Coord2, there: Coord2) -> int:

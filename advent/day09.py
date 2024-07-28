@@ -5,12 +5,12 @@ import itertools
 from advent.utils import data_dir
 
 
-def extrapolate(sequence: list[int], backwards: bool = False) -> int:
+def extrapolate(sequence: list[int], *, backwards: bool = False) -> int:
     if all(n == 0 for n in sequence):
         return 0
 
     differences = [b - a for a, b in itertools.pairwise(sequence)]
-    next_difference = extrapolate(differences, backwards)
+    next_difference = extrapolate(differences, backwards=backwards)
     return (
         sequence[0] - next_difference if backwards else sequence[-1] + next_difference
     )

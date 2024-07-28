@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-from typing import TypeAlias
-
 from advent.utils import Coord2, data_dir
 
-Grid: TypeAlias = dict[Coord2, str]
+type Grid = dict[Coord2, str]
 
 NORTH = (-1, 0)
 SOUTH = (1, 0)

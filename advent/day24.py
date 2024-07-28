@@ -49,7 +49,7 @@ def cross_part_one(s1: Stone, s2: Stone) -> bool:
         return False
 
     y = s1.pos.y + t1 * s1.vel.y
-    if not 200000000000000 <= y <= 400000000000000:
+    if not 200000000000000 <= y <= 400000000000000:  # noqa: SIM103
         return False
 
     return True

@@ -68,7 +68,7 @@ class Play:
     bid: int
 
     @staticmethod
-    def from_string(string: str, part_two: bool = False) -> Play:
+    def from_string(string: str, *, part_two: bool = False) -> Play:
         table = VALUES2 if part_two else VALUES
         faces, bid = string.split()
         values = [table[face] for face in faces]

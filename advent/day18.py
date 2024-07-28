@@ -30,24 +30,24 @@ class Instruction:
     def colour_distance(self) -> int:
         return int(self.colour[1:-1], 16)
 
-    def real_direction(self, part_two: bool = False) -> Coord2:
+    def real_direction(self, *, part_two: bool = False) -> Coord2:
         rdlu = self.colour_direction() if part_two else self.direction
         return DIRECTIONS[rdlu]
 
-    def real_distance(self, part_two: bool = False) -> int:
+    def real_distance(self, *, part_two: bool = False) -> int:
         return self.colour_distance() if part_two else self.distance
 
 
 def build_loop(
-    instructions: list[Instruction], part_two: bool = False
+    instructions: list[Instruction], *, part_two: bool = False
 ) -> tuple[list[Coord2], int]:
     corners: list[Coord2] = []
     length = 0
 
     row, col = (0, 0)
     for instruction in instructions:
-        edge_length = instruction.real_distance(part_two)
-        drow, dcol = instruction.real_direction(part_two)
+        edge_length = instruction.real_distance(part_two=part_two)
+        drow, dcol = instruction.real_direction(part_two=part_two)
         row += drow * edge_length
         col += dcol * edge_length
         corners.append((row, col))

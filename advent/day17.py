@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import heapq
 from collections import defaultdict
-from typing import TYPE_CHECKING, TypeAlias
+from typing import TYPE_CHECKING
 
 from attrs import frozen
 
@@ -17,10 +17,10 @@ EAST = (0, 1)
 WEST = (0, -1)
 
 
-Grid: TypeAlias = dict[Coord2, int]
+type Grid = dict[Coord2, int]
 
 # boolean for whether we are moving north-south, or east-west.
-State: TypeAlias = tuple[Coord2, bool]
+type State = tuple[Coord2, bool]
 
 
 @frozen

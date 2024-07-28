@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections import deque
-from typing import TYPE_CHECKING, TypeAlias
+from typing import TYPE_CHECKING
 
 from attrs import frozen
 from ortools.sat.python import cp_model
@@ -27,8 +27,8 @@ TURNS = {
 }
 
 
-Grid: TypeAlias = dict[Coord2, str]
-Edge: TypeAlias = tuple[Coord2, Coord2]
+type Grid = dict[Coord2, str]
+type Edge = tuple[Coord2, Coord2]
 
 
 @frozen
