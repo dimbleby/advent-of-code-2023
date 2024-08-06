@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from typing import TYPE_CHECKING
-
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from advent.utils import Coord2, data_dir
 

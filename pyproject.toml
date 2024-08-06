@@ -1,34 +1,38 @@
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry]
+[project]
 name = "advent"
 version = "0.1.0"
-description = ""
-authors = ["David Hotham <david.hotham@microsoft.com>"]
+description = "Advent of code 2023"
 readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "ortools>=9.10.4067",
+]
 
-[tool.poetry.dependencies]
-python = "^3.12"
-ortools = "^9.10"
-
-[tool.poetry.group.dev.dependencies]
-mypy = ">=1.7"
-ruff = ">=0.4"
-
-[tool.poetry.scripts]
+[project.scripts]
 advent = "advent.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = [
+  "ruff>=0.5.6",
+  "mypy>=1.11.1",
+]
 
 [tool.mypy]
 files = "."
+strict = true
 enable_error_code = [
   "explicit-override",
   "ignore-without-code",
   "redundant-expr",
   "truthy-bool",
+  "truthy-iterable",
+  "unused-awaitable",
 ]
-strict = true
+warn_unreachable = true
 
 [tool.ruff]
 target-version = "py312"

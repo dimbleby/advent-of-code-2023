@@ -14,12 +14,16 @@ def solve(day: int) -> None:
 
 
 def main() -> None:
-    day = int(sys.argv[1])
-    solve(day)
+    if len(sys.argv) < 2:
+        for day in range(1, 26):
+            print(f"Part {day}:")
+            solve(day)
+            print()
+
+    else:
+        day = int(sys.argv[1])
+        solve(day)
 
 
 if __name__ == "__main__":
-    for day in range(1, 26):
-        print(f"Day {day}:")
-        solve(day)
-        print()
+    main()
