@@ -16,7 +16,7 @@ def solve(day: int) -> None:
 def main() -> None:
     if len(sys.argv) < 2:
         for day in range(1, 26):
-            print(f"Part {day}:")
+            print(f"Day {day}:")
             solve(day)
             print()
 

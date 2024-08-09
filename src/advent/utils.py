@@ -32,10 +32,8 @@ type Coord2 = tuple[int, int]
 type Coord3 = tuple[int, int, int]
 
 
-def manhattan(here: Coord2, there: Coord2) -> int:
-    r1, c1 = here
-    r2, c2 = there
-    return abs(r1 - r2) + abs(c1 - c2)
+def manhattan(here: Iterable[int], there: Iterable[int]) -> int:
+    return sum(abs(h - t) for h, t in zip(here, there, strict=True))
 
 
 @dataclass
